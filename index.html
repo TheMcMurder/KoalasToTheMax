@@ -3,24 +3,24 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8">
-    <meta name="description" content="Koalas to the Max, a site made with love by Vadim Ogievetsky for Annie Albagli">
-    <meta name="keywords" content="Koalas Max Vadim Ogievetsky Annie Albagli D3 Canvas SVG Koala Maximization">
     <meta name="viewport" content="width=540, user-scalable=0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="google" content="notranslate">
-    <title>Koalas to the Max dot Com</title>
+    <title>Creativity Project 2</title>
     <script type="text/javascript">var version = '1.9.4';</script>
     <script type="text/javascript" src="polyfill/polyfill.js?1.9.4"></script>
     <script type="text/javascript" src="polyfill/Blob.js?1.9.4"></script>
     <script type="text/javascript" src="polyfill/FileSaver.js?1.9.4"></script>
     <!--[if gte IE 9]><!-->
     <script type="text/javascript" src="d3.min.js?1.9.4"></script>
-    <script type="text/javascript" src="koala.js?1.9.4"></script>
+    <script type="text/javascript" src="image.js?1.9.4"></script>
     <!--<![endif]-->
-    <link rel="stylesheet" type="text/css" href="koala.css?1.9.4"/>
+    <link rel="stylesheet" type="text/css" href="image.css?1.9.4"/>
   </head>
   <body>
+    <div id="header">This visualization was forked and used for a school assignment 
+      <br>it randomly selects an image related to Christianity and the LDS Church from a selection of images on the server. </div>
     <div id="center">
       <div id="cont">
         <noscript>
@@ -38,10 +38,9 @@
       </div>
     </div>
     <div id="footer">
-      Made with <span id="love">love</span> by
-      <a href="http://vadim.ogievetsky.com">Vadim Ogievetsky</a>
-      for
-      <a href="http://anniealbagli.com">Annie Albagli</a>
+      Fork with minor changes to source code from 
+      <a href="https://github.com/vogievetsky/KoalasToTheMax">github</a>
+      for a school project
       &nbsp; / &nbsp;
       Powered by
       <a href="http://d3js.org/">D3</a>
@@ -184,13 +183,13 @@
         };
 
         // First, make sure we can run.
-        if (!koala.supportsCanvas()) {
+        if (!image.supportsCanvas()) {
           track('NoCanvas', window.navigator.userAgent);
           alert("Sorry, KoalsToTheMax needs HTML5 Canvas support which your browser does not have. Supported browsers include Chrome, Safari, Firefox, Opera, and Internet Explorer 9, 10");
           return;
         }
 
-        if (!koala.supportsSVG()) {
+        if (!image.supportsSVG()) {
           track('NoSVG', window.navigator.userAgent);
           alert("Sorry, KoalsToTheMax needs SVG support which your browser does not have. Supported browsers include Chrome, Safari, Firefox, Opera, and Internet Explorer 9, 10");
           return;
@@ -240,13 +239,13 @@
           //   Where image URL is an actual image URL that will get re-encoded into base64 (2)
           //   Example: http://i.imgur.com/cz1Jb.jpg
           //
-          // Note: where DOMAIN is usually http://koalastothemax.com
+          // Note: where DOMAIN is usually http://imagestothemax.com
           function goToHidden(location, string) {
             location.href = '//' + location.host + location.pathname + '?' + utf8_to_b64(string);
           }
 
           function basicLoad(location) {
-            var possible = ['koalas', 'koalas1', 'koalas2', 'koalas3'];
+            var possible = ['gordon', 'mormon', 'salvador', 'supper'];
             var file = 'img/' + possible[Math.floor(Math.random() * possible.length)] + '.jpg'
             return {
               file: file,
@@ -363,7 +362,7 @@
           img.onload = function() {
             var colorData;
             try {
-              colorData = koala.loadImage(this);
+              colorData = image.loadImage(this);
             } catch (e) {
               colorData = null;
               track('BadLoad', "Msg: '" + e.message + "' file: '" + file + "'");
@@ -373,7 +372,7 @@
               }, 750);
             }
             if (colorData) {
-              koala.makeCircles("#dots", colorData, onEvent);
+              image.makeCircles("#dots", colorData, onEvent);
               track('GoodLoad', 'Yay');
             }
           };
@@ -391,13 +390,13 @@
           if (svgData.indexOf('<svg') !== -1) {
             prefix = [
               '<?xml version="1.0" encoding="utf-8"?>',
-              '<!-- Generator: KoalasToTheMax.com -->',
+              '<!-- Generator: imagesToTheMax.com -->',
               '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">'
             ];
             saveAs(new Blob(
               [svgData.replace('<svg', prefix.join(' ') + '<svg')],
               {type: "text/plain;charset=utf-8"}
-            ), "KoalasToTheMax.svg");
+            ), "imagesToTheMax.svg");
           } else {
             track('SaveSVG', 'Fail');
           }
